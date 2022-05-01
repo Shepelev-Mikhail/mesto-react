@@ -49,7 +49,7 @@ function App() {
 
   //изменение инпута
   const changeInput = () => {
-    console.log('что-то изменилось')
+    console.log("что-то изменилось")
   };
 
   return (
@@ -69,9 +69,9 @@ function App() {
       </div>
 
       <PopupWithForm //попап редактирования профиля
-        name={'profile'}
-        title={'Редактировать профиль'}
-        nameSubmit={'Сохранить'}
+        name="profile"
+        title="Редактировать профиль"
+        buttonText="Сохранить"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
       >
@@ -107,9 +107,9 @@ function App() {
       </PopupWithForm>
 
       <PopupWithForm //попап создания новой карточки
-        name={'place'}
-        title={'Новое место'}
-        nameSubmit={'Создать'}
+        name="place"
+        title="Новое место"
+        buttonText="Создать"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       >
@@ -145,9 +145,9 @@ function App() {
       </PopupWithForm>
 
       <PopupWithForm //попап аватара
-        name={'update-avatar'}
-        title={'Обновить аватар'}
-        nameSubmit={'Сохранить'}
+        name="update-avatar"
+        title="Обновить аватар"
+        buttonText="Сохранить"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
       >
@@ -167,9 +167,9 @@ function App() {
       </PopupWithForm>
 
       <PopupWithForm //попап подтверждения удаления 
-        name={'confirm'}
-        title={'Вы уверены?'}
-        nameSubmit={'Да'}
+        name="confirm"
+        title="Вы уверены?"
+        buttonText="Да"
       />
 
       <ImagePopup //попап просмотра

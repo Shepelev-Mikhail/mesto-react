@@ -3,9 +3,9 @@ import { api } from '../utils/Api';
 import Card from './Card';
 
 function Main(props) {
-  const [userName, updateUserName] = useState();
-  const [userDescription, updateUserDescription] = useState();
-  const [userAvatar, updateUserAvatar] = useState();
+  const [userName, updateUserName] = useState('');
+  const [userDescription, updateUserDescription] = useState('');
+  const [userAvatar, updateUserAvatar] = useState('');
   const [cards, updateCards] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function Main(props) {
       <section className="profile page__container">
         <div className="profile__info">
           <div className="profile__avatar" onClick={props.onEditAvatar}>
-            <img className="profile__image" src={userAvatar} alt="Аватар" />
+            {userAvatar && (<img className="profile__image" src={userAvatar} alt="Аватар" />)}
           </div>
           <div className="profile__name">
             <div className="profile__text">

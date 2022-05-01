@@ -1,5 +1,4 @@
-function Card(props) {
-  const { card } = props;
+function Card({ card }) {
 
   return (
     <li className="card">
