@@ -1,4 +1,4 @@
-function Card({ card }) {
+function Card({ card, onCardClick }) {
 
   return (
     <li className="card">
@@ -7,7 +7,7 @@ function Card({ card }) {
         src={card.link}
         alt={card.name}
         onClick={() => {
-          props.onCardClick(card);
+          onCardClick(card);
         }}
       />
       <div className="card__info">
