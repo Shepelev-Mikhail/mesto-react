@@ -60,6 +60,14 @@ class Api {
   };
 
   //8 Постановка и снятие лайка
+  changeLikeCardStatus(id, isLike) {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      method: isLike ? 'PUT' : 'DELETE',
+      headers: this._headers
+    })
+      .then(this._checkResponse)
+  };
+
   addLike(id) {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'PUT',
