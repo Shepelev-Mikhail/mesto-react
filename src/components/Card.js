@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Card({ card, onCardClick, onCardLike }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
   //console.log('card', card);
   // Определяем, являемся ли мы владельцем текущей карточки
@@ -9,7 +9,7 @@ function Card({ card, onCardClick, onCardLike }) {
 
   // Создаём переменную, которую после зададим в `className` для кнопки удаления
   const cardDeleteButtonClassName = (
-    `card__delete-button ${isOwn ? 'style={{display: visible}}' : 'style={{display: none}}'}`
+    `card__delete ${isOwn ? '' : 'card__delete_hidden'}`
   );
 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
@@ -24,10 +24,14 @@ function Card({ card, onCardClick, onCardLike }) {
     onCardLike(card);
   }
 
+  const handleDeleteClick = () => {
+    onCardDelete(card);
+  }
+
   const handleClick = () => {
     onCardClick(card);
   }
-  
+
   return (
     <li className="card">
       <img
@@ -44,7 +48,7 @@ function Card({ card, onCardClick, onCardLike }) {
           <span className="card__like-counter">{card.likes.length}</span>
         </div>
       </div>
-      <button style={{display: isOwn ? 'visible' : 'none'}} className="card__delete" type="button" aria-label="Удалить">
+      <button style={{display: isOwn ? 'visible' : 'none'}} className="card__delete" type="button" aria-label="Удалить" onClick={handleDeleteClick}>
       </button>
     </li>
   );

@@ -15,7 +15,7 @@ function Main(props) {
       api.getInitialCards()
         .then((cardList) => {
           updateCards(cardList);
-          console.log('cardList', cardList);
+          //console.log('cardList', cardList);
         })
         .catch(console.log);
     };
@@ -34,18 +34,38 @@ function Main(props) {
   //   };
   // }, []);
 
-  function handleCardLike(dataCardClick) {
+  function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = dataCardClick.likes.some(elementLikesForDataCardClick => elementLikesForDataCardClick._id === currentUser._id);
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
     
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(dataCardClick._id, !isLiked).then((newDataCard) => {
-      updateCards((state) => state.map((dataCard) => dataCard._id === dataCardClick._id ? newDataCard : dataCard));
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      updateCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     });
   } 
 
+  // function handleCardLike(dataCardClick) {
+  //   // Снова проверяем, есть ли уже лайк на этой карточке
+  //   const isLiked = dataCardClick.likes.some(elementLikesForDataCardClick => elementLikesForDataCardClick._id === currentUser._id);
+    
+  //   // Отправляем запрос в API и получаем обновлённые данные карточки
+  //   api.changeLikeCardStatus(dataCardClick._id, !isLiked).then((newDataCard) => {
+  //     updateCards((state) => state.map((dataCard) => dataCard._id === dataCardClick._id ? newDataCard : dataCard));
+  //   });
+  // } 
+
+  function handleCardDelete(card) {
+    // Определяем, являемся ли мы владельцем текущей карточки
+    const isOwn = card.owner._id === currentUser._id;
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.deleteCard(card._id).then(() => {
+      updateCards((state) => state.filter((e) => e._id !== card._id));
+    })
+  }
+
   const cardsList = cards.map((card) =>
-    <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike} />
+    <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
   );
 
   return (

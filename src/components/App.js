@@ -6,6 +6,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [currentUser, updateCurrentUser] = useState(null);
@@ -19,7 +20,7 @@ function App() {
       api.getProfile()
         .then((res) => {
           updateCurrentUser(res);
-          console.log('res', res);
+          //console.log('res', res);
         })
         .catch(console.log);
     };
@@ -33,6 +34,7 @@ function App() {
   //клик на редактирование профиля
   const handleEditProfileClick = () => {
     updateIsEditProfilePopupOpen(true);
+    //console.log('handleEditProfileClick', 'clic');
   };
 
   //клик на создание карточки
@@ -83,7 +85,8 @@ function App() {
           <Footer />
         </div>
 
-        <PopupWithForm //попап редактирования профиля
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}/>
+        {/* <PopupWithForm //попап редактирования профиля
           name="profile"
           title="Редактировать профиль"
           buttonText="Сохранить"
@@ -119,7 +122,7 @@ function App() {
             />
             <span className="description-input-error popup__error"></span>
           </div>
-        </PopupWithForm>
+        </PopupWithForm> */}
 
         <PopupWithForm //попап создания новой карточки
           name="place"
