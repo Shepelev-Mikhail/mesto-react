@@ -5,44 +5,27 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
   const currentUser = useContext(CurrentUserContext);
-  // const [userName, updateUserName] = useState('');
-  // const [userDescription, updateUserDescription] = useState('');
-  // const [userAvatar, updateUserAvatar] = useState('');
-  const [cards, updateCards] = useState([]);
-
-  useEffect(() => {
-    return () => {
-      api.getInitialCards()
-        .then((cardList) => {
-          updateCards(cardList);
-          //console.log('cardList', cardList);
-        })
-        .catch(console.log);
-    };
-  }, []);
+  //const [cards, updateCards] = useState([]);
 
   // useEffect(() => {
   //   return () => {
-  //     Promise.all([api.getProfile(), api.getInitialCards()])
-  //       .then(([res, cardList]) => {
-  //         updateUserName(res.name);
-  //         updateUserDescription(res.about);
-  //         updateUserAvatar(res.avatar);
+  //     api.getInitialCards()
+  //       .then((cardList) => {
   //         updateCards(cardList);
   //       })
   //       .catch(console.log);
   //   };
   // }, []);
 
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+  // function handleCardLike(card) {
+  //   // Снова проверяем, есть ли уже лайк на этой карточке
+  //   const isLiked = card.likes.some(i => i._id === currentUser._id);
     
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      updateCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
-  } 
+  //   // Отправляем запрос в API и получаем обновлённые данные карточки
+  //   api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+  //     updateCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+  //   });
+  // } 
 
   // function handleCardLike(dataCardClick) {
   //   // Снова проверяем, есть ли уже лайк на этой карточке
@@ -54,18 +37,18 @@ function Main(props) {
   //   });
   // } 
 
-  function handleCardDelete(card) {
-    // Определяем, являемся ли мы владельцем текущей карточки
-    const isOwn = card.owner._id === currentUser._id;
+  // function handleCardDelete(card) {
+  //   // Определяем, являемся ли мы владельцем текущей карточки
+  //   const isOwn = card.owner._id === currentUser._id;
 
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.deleteCard(card._id).then(() => {
-      updateCards((state) => state.filter((e) => e._id !== card._id));
-    })
-  }
+  //   // Отправляем запрос в API и получаем обновлённые данные карточки
+  //   api.deleteCard(card._id).then(() => {
+  //     updateCards((state) => state.filter((e) => e._id !== card._id));
+  //   })
+  // }
 
-  const cardsList = cards.map((card) =>
-    <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+  const cardsList = props.cards.map((card) =>
+    <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete}/>
   );
 
   return (
