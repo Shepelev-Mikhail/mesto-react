@@ -1,17 +1,17 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup(props) {
   const [place, changePlace] = useState('');
   const [link, changeLink] = useState('');
-  
+
   function handleChangePlace(e) {
     changePlace(e.target.value);
-  }
+  };
 
   function handleChangeLink(e) {
     changeLink(e.target.value);
-  }
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -19,16 +19,16 @@ function AddPlacePopup(props) {
       name: place,
       link: link
     });
-  }
+  };
 
   return (
-    <PopupWithForm //попап создания новой карточки
-    name="place"
-    title="Новое место"
-    buttonText="Создать"
-    isOpen={props.isOpen}
-    onClose={props.onClose}
-    onSubmit={handleSubmit}
+    <PopupWithForm
+      name="place"
+      title="Новое место"
+      buttonText="Создать"
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      onSubmit={handleSubmit}
     >
       <div className="popup__field">
         <input
@@ -60,7 +60,7 @@ function AddPlacePopup(props) {
         <span className="link-input-error popup__error"></span>
       </div>
     </PopupWithForm>
-  )
-}
+  );
+};
 
 export default AddPlacePopup;

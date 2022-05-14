@@ -10,15 +10,15 @@ function EditProfilePopup(props) {
   useEffect(() => {
     changeName(currentUser?.name);
     changeDescription(currentUser?.about);
-  }, [currentUser]); 
+  }, [currentUser]);
 
   function handleChangeName(e) {
     changeName(e.target.value);
-  }
+  };
 
   function handleChangeDescription(e) {
     changeDescription(e.target.value);
-  }
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -26,16 +26,16 @@ function EditProfilePopup(props) {
       name,
       about: description,
     });
-  }
+  };
 
   return (
-    <PopupWithForm //попап редактирования профиля
-    name="profile"
-    title="Редактировать профиль"
-    buttonText="Сохранить"
-    isOpen={props.isOpen}
-    onClose={props.onClose}
-    onSubmit={handleSubmit}
+    <PopupWithForm
+      name="profile"
+      title="Редактировать профиль"
+      buttonText="Сохранить"
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      onSubmit={handleSubmit}
     >
       <div className="popup__field">
         <input

@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { api } from '../utils/Api';
 import Header from './Header';
 import Main from './Main';
@@ -20,18 +20,9 @@ function App() {
 
   useEffect(() => {
     return () => {
-      api.getProfile()
-        .then((res) => {
+      Promise.all([api.getProfile(), api.getInitialCards()])
+        .then(([res, cardList]) => {
           updateCurrentUser(res);
-        })
-        .catch(console.log);
-    };
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      api.getInitialCards()
-        .then((cardList) => {
           updateCards(cardList);
         })
         .catch(console.log);
@@ -74,52 +65,51 @@ function App() {
     }
   };
 
-  const handleUpdateUser = ({name, about}) => {
+  // сабмит редактирования профиля
+  const handleUpdateUser = ({ name, about }) => {
     api.editProfile(name, about)
-    .then((res) => {
-      updateCurrentUser(res);
-      closeAllPopups();
-    })
-    .catch(console.log);
-  }
+      .then((res) => {
+        updateCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(console.log);
+  };
 
+  // сабмит редактирования аватара
   const handleUpdateAvatar = (avatar) => {
     api.updateAvatar(avatar)
-    .then((res) => {
-      updateCurrentUser(res);
-      closeAllPopups();
-    })
-    .catch(console.log);
-  }
+      .then((res) => {
+        updateCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(console.log);
+  };
 
+  // Лайки
   const handleCardLike = (card) => {
-    // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    
-    // Отправляем запрос в API и получаем обновлённые данные карточки
+
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
       updateCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     });
-  } 
+  };
 
+  // удаление карточки
   const handleCardDelete = (card) => {
-    // Определяем, являемся ли мы владельцем текущей карточки
-    const isOwn = card.owner._id === currentUser._id;
-
-    // Отправляем запрос в API и получаем обновлённые данные карточки
     api.deleteCard(card._id).then(() => {
       updateCards((state) => state.filter((e) => e._id !== card._id));
     })
-  }
+  };
 
-  const handleAddPlaceSubmit = ({name, link}) => {
+  // сабмит создания карточки
+  const handleAddPlaceSubmit = ({ name, link }) => {
     api.addCard(name, link)
-    .then((res) => {
-      updateCards([res, ...cards]);
-      closeAllPopups();
-    })
-    .catch(console.log);
-  }
+      .then((res) => {
+        updateCards([res, ...cards]);
+        closeAllPopups();
+      })
+      .catch(console.log);
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -141,48 +131,23 @@ function App() {
           <Footer />
         </div>
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+        <EditProfilePopup // попап редактирования 
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
-        {/* <PopupWithForm //попап создания новой карточки
-          name="place"
-          title="Новое место"
-          buttonText="Создать"
+        <AddPlacePopup // попап аватара
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-        >
-          <div className="popup__field">
-            <input
-              id="place-input"
-              className="popup__input popup__input_type_place"
-              type="text"
-              name="name"
-              placeholder="Название"
-              value=""
-              minLength="2"
-              maxLength="30"
-              required
-              onChange={changeInput}
-            />
-            <span className="place-input-error popup__error"></span>
-          </div>
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
-          <div className="popup__field">
-            <input
-              id="link-input"
-              className="popup__input popup__input_type_link"
-              type="url"
-              name="link"
-              placeholder="Ссылка на картинку"
-              value=""
-              required
-              onChange={changeInput}
-            />
-            <span className="link-input-error popup__error"></span>
-          </div>
-        </PopupWithForm> */}
-
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+        <EditAvatarPopup // попап создания карточки
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <PopupWithForm //попап подтверждения удаления 
           name="confirm"

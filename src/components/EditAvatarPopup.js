@@ -7,16 +7,16 @@ function EditAvatarPopup(props) {
   function handleSubmit(e) {
     e.preventDefault();
     props.onUpdateAvatar(avatarRef.current.value);
-  } 
+  };
 
   return (
-    <PopupWithForm //попап аватара
-    name="update-avatar"
-    title="Обновить аватар"
-    buttonText="Сохранить"
-    isOpen={props.isOpen}
-    onClose={props.onClose}
-    onSubmit={handleSubmit}
+    <PopupWithForm
+      name="update-avatar"
+      title="Обновить аватар"
+      buttonText="Сохранить"
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      onSubmit={handleSubmit}
     >
       <div className="popup__field">
         <input
@@ -31,7 +31,7 @@ function EditAvatarPopup(props) {
         <span className="avatar-input-error popup__error"></span>
       </div>
     </PopupWithForm>
-  )
-}
+  );
+};
 
 export default EditAvatarPopup;
