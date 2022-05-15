@@ -6,13 +6,13 @@ function Main(props) {
   const currentUser = useContext(CurrentUserContext);
 
   const cardsList = props.cards.map((card) =>
-    <Card
+    (<Card
       card={card}
       key={card._id}
       onCardClick={props.onCardClick}
       onCardLike={props.onCardLike}
       onCardDelete={props.onCardDelete}
-    />
+    />)
   );
 
   return (
